@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Override these variables in sourced script(s) located
+# in /usr/lib/swupdate/conf.d or /etc/swupdate/conf.d
+SWUPDATE_WEBSERVER_ARGS=""
+SWUPDATE_SURICATTA_ARGS=""
+SWUPDATE_EXTRA_ARGS=""
+
 # source all files from /etc/swupdate/conf.d and /usr/lib/swupdate/conf.d/
 # A file found in /etc replaces the same file in /usr
 for f in `(test -d @LIBDIR@/swupdate/conf.d/ && ls -1 @LIBDIR@/swupdate/conf.d/; test -d /etc/swupdate/conf.d && ls -1 /etc/swupdate/conf.d) | sort -u`; do
@@ -10,11 +16,7 @@ for f in `(test -d @LIBDIR@/swupdate/conf.d/ && ls -1 @LIBDIR@/swupdate/conf.d/;
   fi
 done
 
-# Override these variables in sourced script(s) located
-# in /usr/lib/swupdate/conf.d or /etc/swupdate/conf.d
 SWUPDATE_ARGS="-v ${SWUPDATE_EXTRA_ARGS}"
-SWUPDATE_WEBSERVER_ARGS=""
-SWUPDATE_SURICATTA_ARGS=""
 
 #  handle variable escaping in a simmple way. Use exec to forward open filedescriptors from systemd open.
 if [ "$SWUPDATE_WEBSERVER_ARGS" != "" -a  "$SWUPDATE_SURICATTA_ARGS" != "" ]; then
